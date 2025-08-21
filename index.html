@@ -68,32 +68,26 @@
     <!-- Problem Section -->
     <section id="problem" class="py-24 fade-in-section">
         <div class="container mx-auto px-6 text-center">
-            <h2 class="section-title mb-4">CRISPR의 아킬레스건: "부작용"</h2>
-            <p class="section-subtitle max-w-3xl mx-auto mb-12">유전자 치료제 개발의 성공과 실패를 가르는 부작용 예측, 기존 소프트웨어 분석은 R&D의 가장 큰 병목점이 되어 시간과 수십억 원의 비용을 낭비하고 있습니다.</p>
+            <h2 class="section-title mb-4">5.5시간 vs 40초</h2>
+            <p class="section-subtitle max-w-3xl mx-auto mb-12">최신 GPU로 5.5시간 걸리는 분석, 저희는 단 40초 만에 끝냅니다. 이 엄청난 격차가 바로 우리가 해결하려는 문제의 본질입니다.</p>
             
-            <div class="max-w-4xl mx-auto glass-card p-8 rounded-2xl shadow-2xl shadow-black/30">
-                <div class="flex justify-center items-center mb-6">
-                    <span class="font-semibold text-slate-400 mr-4">기존 방식 (GPU/CPU)</span>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" value="" id="solutionToggle" class="sr-only peer">
-                        <div class="w-14 h-7 bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-emerald-500"></div>
-                    </label>
-                    <span class="font-semibold text-emerald-400 ml-4">QuantumLeap (FPGA)</span>
-                </div>
-
-                <div id="problem-view">
-                    <h3 class="text-3xl font-bold text-slate-100 mb-6">수일의 시간, 수십억의 손실</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-                        <div class="bg-slate-800/50 p-6 rounded-lg border border-slate-700"><div class="flex items-center text-rose-400 mb-2"><i class="fas fa-clock text-2xl mr-3"></i><span class="text-xl font-bold">지연되는 연구</span></div><p class="text-slate-400">하나의 후보물질 분석에 수일이 소요되어 신약 개발 전체가 지연됩니다.</p></div>
-                        <div class="bg-slate-800/50 p-6 rounded-lg border border-slate-700"><div class="flex items-center text-rose-400 mb-2"><i class="fas fa-dollar-sign text-2xl mr-3"></i><span class="text-xl font-bold">막대한 비용</span></div><p class="text-slate-400">잘못된 예측으로 인한 실험 실패는 막대한 R&D 비용 낭비로 이어집니다.</p></div>
+            <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 text-left">
+                <div class="glass-card p-8 rounded-2xl border border-rose-500/30">
+                    <h3 class="text-3xl font-bold text-rose-400 mb-4">업계 표준: NVIDIA B200</h3>
+                    <div class="space-y-4">
+                        <p><i class="fas fa-clock text-rose-400 w-6"></i> <span class="font-bold">5.5 시간</span> (1,000건 분석)</p>
+                        <p><i class="fas fa-dollar-sign text-rose-400 w-6"></i> <span class="font-bold">$66</span> (총 작업 비용)</p>
+                        <p><i class="fas fa-bolt text-rose-400 w-6"></i> <span class="font-bold">1,200W</span> (최대 전력)</p>
+                        <p class="text-slate-400 pt-4">최고의 GPU조차 유전체 검색 알고리즘 앞에서는 비효율적이며, 막대한 시간과 비용, 전력을 소모합니다.</p>
                     </div>
                 </div>
-
-                <div id="solution-view" class="hidden">
-                    <h3 class="text-3xl font-bold text-emerald-300 mb-6">단 몇 분, 압도적인 효율</h3>
-                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-                        <div class="bg-slate-800/50 p-6 rounded-lg border border-slate-700"><div class="flex items-center text-emerald-400 mb-2"><i class="fas fa-rocket text-2xl mr-3"></i><span class="text-xl font-bold">폭발적 가속</span></div><p class="text-slate-400">커피 한 잔 마시는 시간 안에 분석이 완료되어 연구 사이클이 100배 빨라집니다.</p></div>
-                        <div class="bg-slate-800/50 p-6 rounded-lg border border-slate-700"><div class="flex items-center text-emerald-400 mb-2"><i class="fas fa-coins text-2xl mr-3"></i><span class="text-xl font-bold">비용 90% 절감</span></div><p class="text-slate-400">압도적인 효율성으로 분석 비용을 1/10로 줄여 R&D 예산을 아낄 수 있습니다.</p></div>
+                 <div class="glass-card p-8 rounded-2xl border border-emerald-500/30">
+                    <h3 class="text-3xl font-bold text-emerald-400 mb-4">QuantumLeap: Alveo V70</h3>
+                    <div class="space-y-4">
+                        <p><i class="fas fa-rocket text-emerald-400 w-6"></i> <span class="font-bold">40 초</span> (1,000건 분석)</p>
+                        <p><i class="fas fa-coins text-emerald-400 w-6"></i> <span class="font-bold">$0.04</span> (총 작업 비용)</p>
+                        <p><i class="fas fa-leaf text-emerald-400 w-6"></i> <span class="font-bold">225W</span> (최대 전력)</p>
+                        <p class="text-slate-400 pt-4">하드웨어 최적화를 통해 속도는 500배 빨라지고, 비용은 1,650배 저렴해지며, 전력은 81% 절감됩니다.</p>
                     </div>
                 </div>
             </div>
@@ -232,20 +226,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const toggle = document.getElementById('solutionToggle');
-            const problemView = document.getElementById('problem-view');
-            const solutionView = document.getElementById('solution-view');
-
-            toggle.addEventListener('change', function() {
-                if (this.checked) {
-                    problemView.classList.add('hidden');
-                    solutionView.classList.remove('hidden');
-                } else {
-                    problemView.classList.remove('hidden');
-                    solutionView.classList.add('hidden');
-                }
-            });
-
             const analyzeBtn = document.getElementById('analyze-btn');
             const resultOutput = document.getElementById('result-output');
             const grnaInput = document.getElementById('grna-input');
@@ -270,24 +250,24 @@
             new Chart(techCtx, {
                 type: 'radar',
                 data: {
-                    labels: ['속도 (Speed)', '비용 효율 (Cost/Perf)', '전력 효율 (Perf/Watt)', '정확도 (Accuracy)', '저지연성 (Latency)'],
+                    labels: ['속도', '비용 효율', '전력 효율', '정확도', '저지연성'],
                     datasets: [{
                         label: 'QuantumLeap (FPGA)',
-                        data: [100, 95, 98, 90, 99],
+                        data: [100, 100, 98, 90, 99],
                         backgroundColor: 'rgba(16, 185, 129, 0.4)',
                         borderColor: 'rgba(16, 185, 129, 1)',
                         pointBackgroundColor: 'rgba(16, 185, 129, 1)',
                         pointBorderColor: '#fff',
                     }, {
-                        label: '기존 방식 (GPU)',
-                        data: [20, 40, 50, 75, 60],
+                        label: 'NVIDIA B200 (GPU)',
+                        data: [5, 10, 20, 80, 60],
                         backgroundColor: 'rgba(100, 116, 139, 0.4)',
                         borderColor: 'rgba(100, 116, 139, 1)',
                         pointBackgroundColor: 'rgba(100, 116, 139, 1)',
                         pointBorderColor: '#fff',
                     }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, scales: { r: { beginAtZero: true, max: 100, grid: { color: 'rgba(100, 116, 139, 0.3)' }, angleLines: { color: 'rgba(100, 116, 139, 0.3)'}, pointLabels: { font: { size: 14 }, color: '#cbd5e1' }, ticks: { backdropColor: 'rgba(15, 23, 42, 0.8)' , color: '#fff' } } }, plugins: { title: { display: true, text: '기술 성능 비교', font: { size: 18 }, color: '#f1f5f9' }, legend: { labels: { color: '#cbd5e1' } } } }
+                options: { responsive: true, maintainAspectRatio: false, scales: { r: { beginAtZero: true, max: 100, grid: { color: 'rgba(100, 116, 139, 0.3)' }, angleLines: { color: 'rgba(100, 116, 139, 0.3)'}, pointLabels: { font: { size: 14 }, color: '#cbd5e1' }, ticks: { backdropColor: 'rgba(15, 23, 42, 0.8)' , color: '#fff' } } }, plugins: { title: { display: true, text: '기술 성능 비교 (vs NVIDIA B200)', font: { size: 18 }, color: '#f1f5f9' }, legend: { labels: { color: '#cbd5e1' } } } }
             });
 
             const marketCtx = document.getElementById('marketChart').getContext('2d');
@@ -304,7 +284,7 @@
                         tension: 0.4
                     }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: '시장 성장 전망 (단위: 조원)', font: { size: 18 }, color: '#f1f5f9' }, legend: { labels: { color: '#cbd5e1' } }, tooltip: { callbacks: { label: (c) => `시장 규모: ${c.parsed.y} 조원` } } }, scales: { y: { beginAtZero: true, title: { display: true, text: '시장 규모 (조원)', color: '#94a3b8' }, grid: { color: 'rgba(100, 116, 139, 0.2)' }, ticks: { color: '#cbd5e1' } }, x: { title: { display: true, text: '연도', color: '#94a3b8' }, grid: { color: 'rgba(100, 116, 139, 0.2)' }, ticks: { color: '#cbd5e1' } } } }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: '시장 성장 전망 (단위: 조원)', font: { size: 18 }, color: '#f1f5f9' }, legend: { display: false }, tooltip: { callbacks: { label: (c) => `시장 규모: ${c.parsed.y} 조원` } } }, scales: { y: { beginAtZero: true, title: { display: true, text: '시장 규모 (조원)', color: '#94a3b8' }, grid: { color: 'rgba(100, 116, 139, 0.2)' }, ticks: { color: '#cbd5e1' } }, x: { title: { display: true, text: '연도', color: '#94a3b8' }, grid: { color: 'rgba(100, 116, 139, 0.2)' }, ticks: { color: '#cbd5e1' } } } }
             });
 
             const faders = document.querySelectorAll('.fade-in-section');
@@ -321,5 +301,3 @@
 
 </body>
 </html>
-
-
