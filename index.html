@@ -1,113 +1,323 @@
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>나만의 중고마켓</title>
-    <link rel="stylesheet"
-        href="https://s3.ap-northeast-2.amazonaws.com/materials.spartacodingclub.kr/easygpt/default.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantumLeap Bio - 유전자 교정의 미래를 가속하다</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Dark Slate & Luminous Emerald -->
+    <!-- Application Structure Plan: A 'Cinematic Journey' single-page application. This structure moves beyond a simple vertical scroll, using scroll-triggered animations, parallax effects, and full-screen sections to create a narrative flow. The user is guided from the macro problem down to the micro details of the technology and team, making the experience more immersive and memorable than a standard pitch deck. This is designed to captivate investors and make the complex technology feel tangible and exciting. -->
+    <!-- Visualization & Content Choices: 
+        - Service UI Mockup: Goal=Demonstrate -> Live, interactive HTML mockup of the UI -> Justification=Far more impactful than a static image, it shows exactly what the product does in a simple, understandable way. -> Method=HTML/CSS/JS.
+        - Tech Comparison: Goal=Compare -> Animated Radar Chart -> Justification=A more unique and visually engaging way to show multi-dimensional superiority (Speed, Cost, Power) compared to a standard bar chart. -> Library=Chart.js.
+        - Market Growth: Goal=Show Trend -> Animated Line chart with gradient fill -> Justification=Visually represents the massive market opportunity in a dynamic way. -> Library=Chart.js.
+        - Competition: Goal=Organize/Compare -> Animated 2x2 Matrix -> Justification=Strategically positions the company. Animation adds a layer of polish. -> Method=HTML/CSS/JS with IntersectionObserver.
+        - Roadmap: Goal=Organize -> Interactive, scroll-highlighting vertical timeline -> Justification=Clearly illustrates the strategic plan and progress. -> Method=HTML/CSS/JS.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
-        /* 꾸미기 */
-
-        /*
-        .card:hover {
-  transform: scale(1.05);
-}
-*/
-
-        /*
-.card {
-  transition: width 0.5s ease;
-}
-
-.card:hover {
-  width: 110%;
-}
-*/
-
-        .card {
-            transition: all 0.2s ease-in-out;
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', 'Noto Sans KR', sans-serif; background-color: #0f172a; color: #cbd5e1;}
+        .section-title { font-weight: 900; font-size: 3rem; line-height: 1.2; color: #f1f5f9; }
+        .section-subtitle { font-weight: 500; font-size: 1.25rem; color: #94a3b8; }
+        .glass-card { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(51, 65, 85, 0.5); }
+        .fade-in-section { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
+        .chart-container { position: relative; width: 100%; max-width: 700px; margin-left: auto; margin-right: auto; height: 450px; max-height: 60vh; }
+        .timeline-item::before { content: ''; position: absolute; left: -30px; top: 5px; width: 20px; height: 20px; border-radius: 50%; background-color: #334155; border: 3px solid #1e293b; }
+        .timeline-item.active::before { background-color: #10b981; }
     </style>
 </head>
+<body class="bg-slate-900 text-slate-300">
 
-<body>
-    <div class="hero bg-dark text-center py-5">
-        <h1 class="text-white">나만의 르탄마켓</h1>
-        <h2 class="text-white">집에 있는 물건을 팝니다!</h2>
-    </div>
-    <div class="my-4"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="https://source.unsplash.com/1600x900/?rice-cooker" class="card-img-top" alt="전기밥솥">
-                    <div class="card-body">
-                        <h5 class="card-title">전기밥솥</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">5만원</h6>
-                        <p class="card-text">한 번 밖에 안쓴 전기밥솥 팝니다. 부모님이 독립 할 때 주신 거에요!</p>
-                        <a href="https://spartacodingclub.kr/" class="card-link stretched-link" target="_blank"></a>
-                    </div>
-                </div>
+    <!-- Header -->
+    <header class="bg-slate-900/80 backdrop-blur-lg sticky top-0 z-50 shadow-lg shadow-black/20">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white">
+                <i class="fas fa-dna text-emerald-400"></i> QuantumLeap Bio
+            </a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#problem" class="text-slate-300 hover:text-emerald-400 transition font-medium">문제</a>
+                <a href="#solution" class="text-slate-300 hover:text-emerald-400 transition font-medium">솔루션</a>
+                <a href="#technology" class="text-slate-300 hover:text-emerald-400 transition font-medium">기술</a>
+                <a href="#market" class="text-slate-300 hover:text-emerald-400 transition font-medium">시장</a>
+                <a href="#team" class="text-slate-300 hover:text-emerald-400 transition font-medium">팀</a>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="https://source.unsplash.com/1600x900/?chair" class="card-img-top" alt="의자">
-                    <div class="card-body">
-                        <h5 class="card-title">의자</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">1만원</h6>
-                        <p class="card-text">사무실에서 사용한 의자 팝니다. 조절 가능한 팔걸이가 달려있어요.</p>
-                        <a href="https://spartacodingclub.kr/" class="card-link stretched-link" target="_blank"></a>
+            <a href="mailto:dongsuk.kim@example.com" class="bg-emerald-500 text-white font-bold py-2 px-5 rounded-lg hover:bg-emerald-600 transition shadow-md shadow-emerald-500/30">
+                사업 문의
+            </a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="container mx-auto px-6 pt-24 pb-16 text-center flex flex-col items-center min-h-screen justify-center">
+        <h1 class="text-5xl md:text-8xl font-black text-white mb-6 leading-tight animate-fade-in-down">
+            가장 안전한 유전자 치료,<br>
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-300">반도체 기술</span>로 열다.
+        </h1>
+        <p class="section-subtitle max-w-3xl mx-auto mb-10">
+            QuantumLeap Bio는 FPGA 가속 기술로 CRISPR 부작용 예측 시간을 수일에서 단 몇 분으로 단축하여, 신약 개발의 패러다임을 바꾸는 딥테크 스타트업입니다.
+        </p>
+        <a href="#problem" class="bg-white text-slate-900 font-bold py-4 px-8 rounded-lg text-lg hover:bg-slate-200 transition inline-block shadow-lg shadow-white/10">
+            Discover More <i class="fas fa-arrow-down ml-2"></i>
+        </a>
+    </main>
+
+    <!-- Problem Section -->
+    <section id="problem" class="py-24 fade-in-section">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="section-title mb-4">CRISPR의 아킬레스건: "부작용"</h2>
+            <p class="section-subtitle max-w-3xl mx-auto mb-12">유전자 치료제 개발의 성공과 실패를 가르는 부작용 예측, 기존 소프트웨어 분석은 R&D의 가장 큰 병목점이 되어 시간과 수십억 원의 비용을 낭비하고 있습니다.</p>
+            
+            <div class="max-w-4xl mx-auto glass-card p-8 rounded-2xl shadow-2xl shadow-black/30">
+                <div class="flex justify-center items-center mb-6">
+                    <span class="font-semibold text-slate-400 mr-4">기존 방식 (GPU/CPU)</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" value="" id="solutionToggle" class="sr-only peer">
+                        <div class="w-14 h-7 bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-emerald-500"></div>
+                    </label>
+                    <span class="font-semibold text-emerald-400 ml-4">QuantumLeap (FPGA)</span>
+                </div>
+
+                <div id="problem-view">
+                    <h3 class="text-3xl font-bold text-slate-100 mb-6">수일의 시간, 수십억의 손실</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                        <div class="bg-slate-800/50 p-6 rounded-lg border border-slate-700"><div class="flex items-center text-rose-400 mb-2"><i class="fas fa-clock text-2xl mr-3"></i><span class="text-xl font-bold">지연되는 연구</span></div><p class="text-slate-400">하나의 후보물질 분석에 수일이 소요되어 신약 개발 전체가 지연됩니다.</p></div>
+                        <div class="bg-slate-800/50 p-6 rounded-lg border border-slate-700"><div class="flex items-center text-rose-400 mb-2"><i class="fas fa-dollar-sign text-2xl mr-3"></i><span class="text-xl font-bold">막대한 비용</span></div><p class="text-slate-400">잘못된 예측으로 인한 실험 실패는 막대한 R&D 비용 낭비로 이어집니다.</p></div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="https://source.unsplash.com/1600x900/?laptop" class="card-img-top" alt="노트북">
-                    <div class="card-body">
-                        <h5 class="card-title">노트북</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">30만원</h6>
-                        <p class="card-text">삼성 노트북 판매합니다. 사용기간은 1년 정도이며, 상태는 깨끗합니다.</p>
-                        <a href="https://spartacodingclub.kr/" class="card-link stretched-link" target="_blank"></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="11qjsrk 스크린샷 2023-03-21 213538.png" class="card-img-top" alt="노트북">
-                    <div class="card-body">
-                        <h5 class="card-title">노트북</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">30만원</h6>
-                        <p class="card-text">삼성 노트북 판매합니다. 사용기간은 1년 정도이며, 상태는 깨끗합니다.</p>
-                        <a href="https://spartacodingclub.kr/" class="card-link stretched-link" target="_blank"></a>
-                    </div>
-                </div>
-            </div>            
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="네스.png" class="card-img-top" alt="의자">
-                    <div class="card-body">
-                        <h5 class="card-title">의자</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">1만원</h6>
-                        <p class="card-text">사무실에서 사용한 의자 팝니다. 조절 가능한 팔걸이가 달려있어요.</p>
-                        <a href="https://spartacodingclub.kr/" class="card-link stretched-link" target="_blank"></a>
+
+                <div id="solution-view" class="hidden">
+                    <h3 class="text-3xl font-bold text-emerald-300 mb-6">단 몇 분, 압도적인 효율</h3>
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                        <div class="bg-slate-800/50 p-6 rounded-lg border border-slate-700"><div class="flex items-center text-emerald-400 mb-2"><i class="fas fa-rocket text-2xl mr-3"></i><span class="text-xl font-bold">폭발적 가속</span></div><p class="text-slate-400">커피 한 잔 마시는 시간 안에 분석이 완료되어 연구 사이클이 100배 빨라집니다.</p></div>
+                        <div class="bg-slate-800/50 p-6 rounded-lg border border-slate-700"><div class="flex items-center text-emerald-400 mb-2"><i class="fas fa-coins text-2xl mr-3"></i><span class="text-xl font-bold">비용 90% 절감</span></div><p class="text-slate-400">압도적인 효율성으로 분석 비용을 1/10로 줄여 R&D 예산을 아낄 수 있습니다.</p></div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="solution" class="py-24 fade-in-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="section-title mb-4">AI 예측, 반도체로 완성하다</h2>
+                <p class="section-subtitle max-w-3xl mx-auto">저희는 AI 예측 알고리즘을 반도체(FPGA)에 직접 구현하여, 웹사이트에 접속해 클릭 한 번이면 수일 걸리던 분석을 단 몇 분 만에 완료합니다.</p>
+            </div>
+            <div class="max-w-4xl mx-auto glass-card rounded-2xl shadow-2xl shadow-black/30 overflow-hidden border-2 border-emerald-500/30">
+                <div class="bg-slate-800 px-4 py-2 flex items-center">
+                    <div class="flex space-x-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <p class="text-center text-slate-400 text-sm flex-grow">QuantumLeap Bio Analysis Platform</p>
+                </div>
+                <div class="p-8">
+                    <div class="mb-6">
+                        <label for="grna-input" class="block text-lg font-semibold text-emerald-300 mb-2"><i class="fas fa-keyboard mr-2"></i>gRNA 서열을 입력하세요</label>
+                        <input type="text" id="grna-input" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-slate-100 font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="예: ACGTACGTACGTACGTACGT">
+                    </div>
+                    <div class="mb-6">
+                        <button id="analyze-btn" class="w-full bg-emerald-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-emerald-600 transition shadow-lg shadow-emerald-500/30 text-lg">
+                            <i class="fas fa-cogs mr-2"></i> 분석 시작
+                        </button>
+                    </div>
+                    <div>
+                        <label for="result-output" class="block text-lg font-semibold text-emerald-300 mb-2"><i class="fas fa-poll mr-2"></i>분석 결과</label>
+                        <textarea id="result-output" rows="8" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-slate-400 font-mono" readonly>분석 시작 버튼을 누르면 결과가 여기에 표시됩니다...</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section id="technology" class="py-24 fade-in-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="section-title mb-4">Our Secret Sauce: FPGA + AI</h2>
+                <p class="section-subtitle max-w-3xl mx-auto">F1 레이싱카(FPGA)와 범용 트럭(GPU)의 차이만큼 명확한 기술적 우위. 특정 문제 해결에 최적화된 반도체 기술이 우리의 핵심 경쟁력입니다.</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="techChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market Section -->
+    <section id="market" class="py-24 fade-in-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="section-title mb-4">연 11% 성장하는 4.5조원의 골드러시</h2>
+                <p class="section-subtitle max-w-3xl mx-auto">전체 CRISPR 시장 중 '분석 서비스' 분야가 가장 빠르게 성장하고 있으며, 속도와 비용에 민감한 바이오 스타트업과 대학 연구소가 우리의 핵심 목표 시장입니다.</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="marketChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competition Section -->
+    <section class="py-24 fade-in-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="section-title mb-4">"만능 스위스칼" vs "최고의 일본도"</h2>
+                <p class="section-subtitle max-w-3xl mx-auto">경쟁사들은 모든 것을 다 하려는 '소프트웨어' 회사입니다. 저희는 Off-Target 예측 하나만큼은 세계 최고인 '딥테크' 회사입니다.</p>
+            </div>
+            <div class="max-w-4xl mx-auto grid grid-cols-2 grid-rows-2 gap-1 bg-slate-700/50 rounded-xl p-1 shadow-lg">
+                <div class="p-8 glass-card rounded-tl-lg flex items-center justify-center text-center"><span class="text-slate-400">낮은 속도 & 효율</span></div>
+                <div class="p-8 glass-card rounded-tr-lg flex items-center justify-center text-center font-bold text-lg"><i class="fas fa-tools mr-3 text-slate-400"></i> 경쟁사 (통합 플랫폼)</div>
+                <div class="p-8 glass-card rounded-bl-lg flex items-center justify-center text-center font-bold text-lg"><span class="text-slate-400">틈새 시장</span></div>
+                <div class="p-8 bg-emerald-500/20 border border-emerald-500/50 rounded-br-lg flex items-center justify-center text-center text-emerald-300 font-bold text-2xl"><i class="fas fa-star mr-3"></i> QuantumLeap Bio</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="py-24 fade-in-section">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="section-title mb-4">14년 경력의 전문가가 직접 만듭니다</h2>
+            <p class="section-subtitle max-w-3xl mx-auto mb-16">아이디어를 실제 동작하는 제품으로 만들 수 있는 검증된 실행력을 갖춘 하드웨어 아키텍트가 직접 이끕니다.</p>
+            <div class="max-w-sm mx-auto glass-card rounded-2xl p-8 shadow-2xl shadow-black/30">
+                <img class="w-40 h-40 rounded-full mx-auto -mt-24 border-8 border-slate-700 shadow-lg" src="http://googleusercontent.com/file_content/2" alt="김동석 대표 사진">
+                <h3 class="text-3xl font-bold mt-4 text-white">김동석</h3>
+                <p class="text-emerald-400 font-semibold text-lg">Founder & CEO</p>
+                <p class="text-slate-400 mt-4">
+                    FPGA 임베디드 설계 10년, 글로벌 반도체 기업 SoC 검증 4년 경력. 아이디어를 세계 최고 수준의 제품으로 구현할 수 있는 독보적인 기술력을 보유.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section class="py-24 fade-in-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="section-title mb-4">성공적인 첫걸음을 위한 로드맵</h2>
+                <p class="section-subtitle max-w-3xl mx-auto">사전인큐베이팅을 시작으로, 전 세계 유전자 치료제 개발의 표준 툴로 성장하겠습니다.</p>
+            </div>
+            <div class="max-w-2xl mx-auto">
+                <div class="relative border-l-2 border-slate-700 ml-4">
+                    <div class="mb-12 pl-12 timeline-item active">
+                        <h3 class="text-2xl font-bold text-emerald-400">MVP 개발 (6개월)</h3>
+                        <p class="text-slate-400">핵심 기능 개발 및 초기 고객 피드백 확보</p>
+                    </div>
+                    <div class="mb-12 pl-12 timeline-item">
+                        <h3 class="text-2xl font-bold text-white">법인 설립 / 투자 유치 (1년)</h3>
+                        <p class="text-slate-400">2026년 예비창업패키지 선정 및 시드 투자 유치</p>
+                    </div>
+                    <div class="pl-12 timeline-item">
+                        <h3 class="text-2xl font-bold text-white">글로벌 확장 (3년)</h3>
+                        <p class="text-slate-400">북미 시장 진출 및 업계 표준 솔루션으로 성장</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <footer id="contact" class="bg-slate-900/50 text-white py-20 mt-24">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold mb-4 text-white">유전자 교정의 미래를<br>함께 가속할 파트너를 찾습니다.</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto mb-8">QuantumLeap Bio의 비전에 공감하신다면, 지금 바로 연락주십시오.</p>
+            <a href="mailto:dongsuk.kim@example.com" class="bg-emerald-500 text-white font-bold py-4 px-8 rounded-lg text-lg hover:bg-emerald-600 transition inline-block shadow-lg shadow-emerald-500/30">
+                <i class="fas fa-envelope mr-2"></i> 투자 및 파트너십 문의
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('solutionToggle');
+            const problemView = document.getElementById('problem-view');
+            const solutionView = document.getElementById('solution-view');
+
+            toggle.addEventListener('change', function() {
+                if (this.checked) {
+                    problemView.classList.add('hidden');
+                    solutionView.classList.remove('hidden');
+                } else {
+                    problemView.classList.remove('hidden');
+                    solutionView.classList.add('hidden');
+                }
+            });
+
+            const analyzeBtn = document.getElementById('analyze-btn');
+            const resultOutput = document.getElementById('result-output');
+            const grnaInput = document.getElementById('grna-input');
+            analyzeBtn.addEventListener('click', () => {
+                resultOutput.value = "분석 중... FPGA 가속 엔진을 호출합니다...";
+                analyzeBtn.disabled = true;
+                analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Analyzing...';
+                
+                setTimeout(() => {
+                    const grna = grnaInput.value.toUpperCase().trim();
+                    if (grna.length >= 20 && /^[ACGT]+$/.test(grna)) {
+                         resultOutput.value = `[분석 완료]\n입력된 gRNA: ${grna}\n\nOff-Target 예측 결과 (Top 3):\n1. Chr1:15610025 (Mismatch: 1)\n   - 서열: ${grna.slice(0,10)}A${grna.slice(11)}\n2. Chr8:8914820 (Mismatch: 2)\n   - 서열: C${grna.slice(1,15)}T${grna.slice(16)}\n3. ChrX:11049821 (Mismatch: 2)\n   - 서열: ${grna.slice(0,5)}G${grna.slice(6,18)}A${grna.slice(19)}\n\n...총 15개의 잠재적 부작용 위치가 발견되었습니다.`;
+                    } else {
+                        resultOutput.value = "[오류]\n유효한 gRNA 서열(20자 이상, A,C,G,T)을 입력해주세요.";
+                    }
+                    analyzeBtn.disabled = false;
+                    analyzeBtn.innerHTML = '<i class="fas fa-cogs mr-2"></i> 분석 시작';
+                }, 2500);
+            });
+
+            const techCtx = document.getElementById('techChart').getContext('2d');
+            new Chart(techCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['속도 (Speed)', '비용 효율 (Cost/Perf)', '전력 효율 (Perf/Watt)', '정확도 (Accuracy)', '저지연성 (Latency)'],
+                    datasets: [{
+                        label: 'QuantumLeap (FPGA)',
+                        data: [100, 95, 98, 90, 99],
+                        backgroundColor: 'rgba(16, 185, 129, 0.4)',
+                        borderColor: 'rgba(16, 185, 129, 1)',
+                        pointBackgroundColor: 'rgba(16, 185, 129, 1)',
+                        pointBorderColor: '#fff',
+                    }, {
+                        label: '기존 방식 (GPU)',
+                        data: [20, 40, 50, 75, 60],
+                        backgroundColor: 'rgba(100, 116, 139, 0.4)',
+                        borderColor: 'rgba(100, 116, 139, 1)',
+                        pointBackgroundColor: 'rgba(100, 116, 139, 1)',
+                        pointBorderColor: '#fff',
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { r: { beginAtZero: true, max: 100, grid: { color: 'rgba(100, 116, 139, 0.3)' }, angleLines: { color: 'rgba(100, 116, 139, 0.3)'}, pointLabels: { font: { size: 14 }, color: '#cbd5e1' }, ticks: { backdropColor: 'rgba(15, 23, 42, 0.8)' , color: '#fff' } } }, plugins: { title: { display: true, text: '기술 성능 비교', font: { size: 18 }, color: '#f1f5f9' }, legend: { labels: { color: '#cbd5e1' } } } }
+            });
+
+            const marketCtx = document.getElementById('marketChart').getContext('2d');
+            new Chart(marketCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2024', '2025', '2026', '2027', '2028', '2029', '2030'],
+                    datasets: [{
+                        label: '글로벌 CRISPR 기술 시장 규모',
+                        data: [3.8, 4.5, 5.2, 6.1, 7.2, 8.5, 10.1],
+                        fill: true,
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        borderColor: 'rgba(16, 185, 129, 1)',
+                        tension: 0.4
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: '시장 성장 전망 (단위: 조원)', font: { size: 18 }, color: '#f1f5f9' }, legend: { labels: { color: '#cbd5e1' } }, tooltip: { callbacks: { label: (c) => `시장 규모: ${c.parsed.y} 조원` } } }, scales: { y: { beginAtZero: true, title: { display: true, text: '시장 규모 (조원)', color: '#94a3b8' }, grid: { color: 'rgba(100, 116, 139, 0.2)' }, ticks: { color: '#cbd5e1' } }, x: { title: { display: true, text: '연도', color: '#94a3b8' }, grid: { color: 'rgba(100, 116, 139, 0.2)' }, ticks: { color: '#cbd5e1' } } } }
+            });
+
+            const faders = document.querySelectorAll('.fade-in-section');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            faders.forEach(fader => observer.observe(fader));
+        });
+    </script>
 
 </body>
-
 </html>
