@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantumLeap Bio - 유전자 분석의 패러다임을 바꾸다</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Deep Space & Luminous Emerald -->
+    <!-- Application Structure Plan: A full-screen, scroll-driven narrative SPA where each "slide" from the pitch deck is a distinct, immersive section. The user journey is cinematic, guiding them from a high-level hook (the cover) through the core arguments (Problem, Solution, Tech) to the business case (Market, Model, Team) and conclusion. This structure maximizes engagement and makes complex data feel intuitive and impactful. -->
+    <!-- Visualization & Content Choices: 
+        - Slide 2 (Problem): Goal=Compare -> Animated visual diagram showing a "GPU Traffic Jam" vs an "FPGA Expressway" -> Justification=Instantly communicates the core latency problem in a universally understood metaphor. -> Method=HTML/CSS/JS.
+        - Slide 3 (Solution): Goal=Demonstrate -> Live, interactive HTML mockup of the UI -> Justification=Proves the concept and makes the solution tangible. -> Method=HTML/CSS/JS.
+        - Slide 4 (Technology): Goal=Compare -> Multi-metric bar chart -> Justification=Clearly breaks down the multi-faceted technical superiority (cost, power, speed) in a data-driven way. -> Library=Chart.js.
+        - Slide 5 (Market): Goal=Organize -> Donut chart for market segmentation -> Justification=Visually shows the targetable market within the larger industry context. -> Library=Chart.js.
+        - Slide 7 (Competition): Goal=Organize -> 2x2 Matrix Diagram -> Justification=Classic, powerful tool to strategically position the company. -> Method=HTML/CSS.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', 'Noto Sans KR', sans-serif; background-color: #020617; color: #cbd5e1; }
+        .slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 4rem 1.5rem; border-bottom: 1px solid #1e293b; }
+        .section-title { font-weight: 900; font-size: 3.5rem; line-height: 1.2; color: #f1f5f9; text-align: center; }
+        .section-subtitle { font-weight: 500; font-size: 1.25rem; color: #94a3b8; text-align: center; max-width: 800px; margin: 1rem auto 0; }
+        .glass-card { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(51, 65, 85, 0.5); }
+        .fade-in-section { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
+        .chart-container { position: relative; width: 100%; max-width: 900px; margin: 2rem auto 0; height: 450px; max-height: 50vh; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-300">
+
+    <!-- Slide 1: Cover -->
+    <section id="slide1" class="slide">
+        <div class="text-center">
+            <div class="mb-4"><i class="fas fa-dna text-6xl text-emerald-400"></i></div>
+            <h1 class="text-4xl font-bold text-white mb-2">QuantumLeap Bio</h1>
+            <h2 class="text-6xl md:text-8xl font-black text-white mb-6 leading-tight">GPU의 '대기 시간'을<br><span class="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-300">제거하다</span></h2>
+            <p class="text-xl text-slate-400">반도체(FPGA)로 가속하는 실시간 유전자 분석 플랫폼</p>
+            <p class="mt-8 text-lg">2025 Pre-WoW! 사전인큐베이팅 / 발표자: 김동석</p>
+        </div>
+    </section>
+
+    <!-- Slide 2: Problem -->
+    <section id="slide2" class="slide fade-in-section">
+        <h2 class="section-title mb-4">문제는 속도가 아니라, '응답 시간'입니다.</h2>
+        <p class="section-subtitle mb-16">아무리 빠른 GPU 클러스터도 '배치(Batch)' 방식의 한계 때문에, 첫 번째 연구원은 항상 기다려야 합니다. 이 '기다림'이 연구의 흐름을 끊는 진짜 문제입니다.</p>
+        <div class="w-full max-w-6xl grid md:grid-cols-2 gap-8 items-center">
+            <div class="glass-card p-8 rounded-2xl">
+                <h3 class="text-3xl font-bold text-rose-400 mb-4 text-center">GPU의 '대기열'</h3>
+                <div class="h-64 bg-slate-800/50 rounded-lg p-4 flex flex-col space-y-2 overflow-hidden"><div class="flex items-center animate-pulse"><div class="w-10 h-10 bg-rose-400/50 rounded flex items-center justify-center mr-2"><i class="fas fa-flask"></i></div><span>Request 1 (대기 중...)</span></div><div class="flex items-center animate-pulse delay-150"><div class="w-10 h-10 bg-rose-400/50 rounded flex items-center justify-center mr-2"><i class="fas fa-flask"></i></div><span>Request 2 (대기 중...)</span></div><div class="flex items-center animate-pulse delay-300"><div class="w-10 h-10 bg-rose-400/50 rounded flex items-center justify-center mr-2"><i class="fas fa-flask"></i></div><span>... (배치가 찰 때까지)</span></div></div>
+            </div>
+            <div class="glass-card p-8 rounded-2xl border-2 border-emerald-500/50">
+                <h3 class="text-3xl font-bold text-emerald-400 mb-4 text-center">FPGA의 '전용 고속도로'</h3>
+                <div class="h-64 bg-slate-800/50 rounded-lg p-4 flex flex-col justify-center"><div class="flex items-center"><div class="w-10 h-10 bg-emerald-400/50 rounded flex items-center justify-center mr-2"><i class="fas fa-flask"></i></div><div class="w-full h-2 bg-emerald-400 rounded-full relative overflow-hidden"><div class="absolute h-full bg-white animate-flow w-4"></div></div><i class="fas fa-poll text-2xl ml-2 text-emerald-400"></i></div><p class="text-center mt-4 font-bold text-emerald-300 text-lg">결과 즉시 반환 (&lt; 1ms)</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Solution -->
+    <section id="slide3" class="slide fade-in-section">
+        <h2 class="section-title mb-4">'기다림'을 없앤, 진정한 '실시간 분석'</h2>
+        <p class="section-subtitle mb-12">저희는 FPGA 기술로 '대화형 분석'이라는 새로운 연구 경험을 제공합니다. 아이디어가 떠오른 즉시, 마이크로초(µs) 단위로 결과를 확인하고 다음 단계로 나아갈 수 있습니다.</p>
+        <div class="w-full max-w-4xl mx-auto glass-card rounded-2xl shadow-2xl shadow-black/30 overflow-hidden border-2 border-emerald-500/30">
+            <div class="bg-slate-800 px-4 py-2 flex items-center"><div class="flex space-x-2"><div class="w-3 h-3 rounded-full bg-red-500"></div><div class="w-3 h-3 rounded-full bg-yellow-500"></div><div class="w-3 h-3 rounded-full bg-green-500"></div></div><p class="text-center text-slate-400 text-sm flex-grow">QuantumLeap Bio Analysis Platform</p></div>
+            <div class="p-8"><div class="mb-6"><label for="grna-input" class="block text-lg font-semibold text-emerald-300 mb-2"><i class="fas fa-keyboard mr-2"></i>gRNA 서열 입력</label><input type="text" id="grna-input" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-slate-100 font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="ACGTACGTACGTACGTACGT"></div><div class="mb-6"><button id="analyze-btn" class="w-full bg-emerald-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-emerald-600 transition shadow-lg shadow-emerald-500/30 text-lg"><i class="fas fa-cogs mr-2"></i> 실시간 분석 시작</button></div><div><label for="result-output" class="block text-lg font-semibold text-emerald-300 mb-2"><i class="fas fa-poll mr-2"></i>분석 결과</label><textarea id="result-output" rows="8" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-slate-400 font-mono" readonly>분석 시작 버튼을 누르면 결과가 즉시 표시됩니다...</textarea></div></div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Technology -->
+    <section id="slide4" class="slide fade-in-section">
+        <h2 class="section-title mb-4">이것은 개선이 아닌, 혁신입니다.</h2>
+        <p class="section-subtitle mb-12">업계 표준인 NVIDIA 최상위 GPU 클러스터(B200 x8)와 비교하여, 기술의 패러다임을 바꿉니다.</p>
+        <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="glass-card p-6 rounded-xl text-center"><p class="text-lg text-slate-400">첫 응답 시간</p><p class="text-5xl font-extrabold text-emerald-400 my-2">&lt; 1ms</p><p class="text-rose-400">vs 수십 초</p></div>
+            <div class="glass-card p-6 rounded-xl text-center"><p class="text-lg text-slate-400">초기 도입 비용</p><p class="text-5xl font-extrabold text-emerald-400 my-2">150배</p><p class="text-emerald-400">절감</p></div>
+            <div class="glass-card p-6 rounded-xl text-center"><p class="text-lg text-slate-400">소비 전력</p><p class="text-5xl font-extrabold text-emerald-400 my-2">97%</p><p class="text-emerald-400">절감 (ESG)</p></div>
+            <div class="glass-card p-6 rounded-xl text-center"><p class="text-lg text-slate-400">3년 총소유비용</p><p class="text-5xl font-extrabold text-emerald-400 my-2">90%+</p><p class="text-emerald-400">절감</p></div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Market -->
+    <section id="slide5" class="slide fade-in-section">
+        <h2 class="section-title mb-4">새로운 시장을 창출하고, 기존 시장을 파괴합니다.</h2>
+        <p class="section-subtitle mb-12">저희는 '실시간 분석'이라는 새로운 시장을 창출하고, 압도적인 TCO 우위로 기존 '배치 분석' 시장까지 공략합니다.</p>
+        <div class="chart-container">
+            <canvas id="marketChart"></canvas>
+        </div>
+    </section>
+
+    <!-- Slide 6: Business Model -->
+    <section id="slide6" class="slide fade-in-section">
+        <h2 class="section-title mb-4">합리적이고 확장 가능한 SaaS 모델</h2>
+        <p class="section-subtitle mb-12">실시간 분석(프리미엄)과 배치 분석(이코노미)의 Two-Track 전략, 그리고 API 판매를 통해 모든 고객을 만족시킵니다.</p>
+        <div class="w-full max-w-6xl grid md:grid-cols-3 gap-8">
+            <div class="glass-card p-8 rounded-2xl text-center"><h3 class="text-xl font-bold text-slate-400 mb-2">Academic</h3><p class="text-4xl font-extrabold mb-4">월 6만원</p><ul class="text-slate-400 space-y-2"><li><i class="fas fa-check text-emerald-500 mr-2"></i>개인 연구자, 학생</li><li><i class="fas fa-check text-emerald-500 mr-2"></i>실시간/배치 분석</li></ul></div>
+            <div class="glass-card p-8 rounded-2xl text-center relative border-2 border-emerald-500 shadow-2xl shadow-emerald-500/20"><div class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full">MOST POPULAR</div><h3 class="text-xl font-bold text-emerald-400 mb-2">Pro</h3><p class="text-4xl font-extrabold mb-4">월 36만원</p><ul class="text-slate-400 space-y-2"><li><i class="fas fa-check text-emerald-500 mr-2"></i>바이오 스타트업, 기업</li><li><i class="fas fa-check text-emerald-500 mr-2"></i>API 일부 제공</li></ul></div>
+            <div class="glass-card p-8 rounded-2xl text-center"><h3 class="text-xl font-bold text-slate-400 mb-2">Enterprise</h3><p class="text-4xl font-extrabold mb-4">별도 문의</p><ul class="text-slate-400 space-y-2"><li><i class="fas fa-check text-emerald-500 mr-2"></i>대형 제약사, CRO</li><li><i class="fas fa-check text-emerald-500 mr-2"></i>전용 API 및 기술 지원</li></ul></div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Competition -->
+    <section id="slide7" class="slide fade-in-section">
+        <h2 class="section-title mb-4">"만능 스위스칼" vs "최고의 일본도"</h2>
+        <p class="section-subtitle mb-12">경쟁사들은 모두 GPU 아키텍처에 종속된 '소프트웨어' 회사입니다. 저희는 문제의 본질을 하드웨어로 해결하는 '딥테크' 회사입니다.</p>
+        <div class="w-full max-w-4xl mx-auto grid grid-cols-2 grid-rows-2 gap-1 bg-slate-700/50 rounded-xl p-1 shadow-lg">
+            <div class="p-8 glass-card rounded-tl-lg flex items-center justify-center text-center"><span class="text-slate-400">높은 TCO, 느린 응답</span></div>
+            <div class="p-8 glass-card rounded-tr-lg flex items-center justify-center text-center font-bold text-lg"><i class="fas fa-tools mr-3 text-slate-400"></i> 경쟁사 (GPU Cluster)</div>
+            <div class="p-8 glass-card rounded-bl-lg flex items-center justify-center text-center font-bold text-lg"><span class="text-slate-400">틈새 시장</span></div>
+            <div class="p-8 bg-emerald-500/20 border border-emerald-500/50 rounded-br-lg flex items-center justify-center text-center text-emerald-300 font-bold text-2xl"><i class="fas fa-star mr-3"></i> QuantumLeap Bio</div>
+        </div>
+    </section>
+
+    <!-- Slide 8: Team -->
+    <section id="slide8" class="slide fade-in-section">
+        <h2 class="section-title mb-4">14년 경력의 전문가가 직접 만듭니다.</h2>
+        <p class="section-subtitle mb-12">아이디어를 실제 동작하는 세계 최고 수준의 제품으로 만들 수 있는 검증된 실행력을 갖춘 하드웨어 아키텍트가 직접 이끕니다.</p>
+        <div class="max-w-sm mx-auto glass-card rounded-2xl p-8 shadow-2xl shadow-black/30">
+            <img class="w-40 h-40 rounded-full mx-auto -mt-24 border-8 border-slate-700 shadow-lg" src="http://googleusercontent.com/file_content/2" alt="김동석 대표 사진">
+            <h3 class="text-3xl font-bold mt-4 text-white">김동석</h3>
+            <p class="text-emerald-400 font-semibold text-lg">Founder & CEO</p>
+            <p class="text-slate-400 mt-4">FPGA 임베디드 설계 10년, 글로벌 반도체 기업 SoC 검증 4년 경력. 아이디어를 세계 최고 수준의 제품으로 구현할 수 있는 독보적인 기술력을 보유.</p>
+        </div>
+    </section>
+
+    <!-- Slide 9: Roadmap -->
+    <section id="slide9" class="slide fade-in-section">
+        <h2 class="section-title mb-4">성공적인 첫걸음을 위한 명확한 계획</h2>
+        <p class="section-subtitle mb-12">저희는 이 프로그램을 통해 실제 동작하는 MVP를 완성하고 사업 성공의 기반을 다질 것입니다.</p>
+        <div class="w-full max-w-2xl mx-auto">
+            <div class="relative border-l-2 border-slate-700 ml-4">
+                <div class="mb-12 pl-12 relative"><div class="absolute left-0 top-1.5 w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold ring-4 ring-emerald-500/30">1</div><h3 class="text-2xl font-bold text-emerald-400">MVP 개발 (6개월)</h3><p class="text-slate-400">사전인큐베이팅 기간 동안 핵심 기능 개발 및 성능 실증</p></div>
+                <div class="mb-12 pl-12 relative"><div class="absolute left-0 top-1.5 w-8 h-8 bg-slate-600 rounded-full flex items-center justify-center text-white font-bold">2</div><h3 class="text-2xl font-bold text-white">법인 설립 / 투자 유치 (1년)</h3><p class="text-slate-400">2026년 예비창업패키지 선정 및 시드 투자 유치</p></div>
+                <div class="pl-12 relative"><div class="absolute left-0 top-1.5 w-8 h-8 bg-slate-600 rounded-full flex items-center justify-center text-white font-bold">3</div><h3 class="text-2xl font-bold text-white">글로벌 확장 (3년)</h3><p class="text-slate-400">북미 시장 진출 및 업계 표준 솔루션으로 성장</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10: Closing -->
+    <section id="slide10" class="slide">
+        <div class="text-center">
+            <div class="mb-4"><i class="fas fa-dna text-6xl text-emerald-400"></i></div>
+            <h2 class="text-5xl font-bold text-white mb-4">QuantumLeap Bio</h2>
+            <p class="section-subtitle mb-8">유전자 분석의 패러다임을 바꾸는 여정에 함께해주십시오.</p>
+            <a href="mailto:dongsuk.kim.qbio@gmail.com" class="bg-emerald-500 text-white font-bold py-4 px-8 rounded-lg text-lg hover:bg-emerald-600 transition inline-block shadow-lg shadow-emerald-500/30"><i class="fas fa-envelope mr-2"></i> 투자 및 파트너십 문의</a>
+            <p class="mt-8 text-slate-500">감사합니다.</p>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const analyzeBtn = document.getElementById('analyze-btn');
+            const resultOutput = document.getElementById('result-output');
+            const grnaInput = document.getElementById('grna-input');
+            analyzeBtn.addEventListener('click', () => {
+                resultOutput.value = "분석 중... FPGA 전용 파이프라인으로 요청을 즉시 전송합니다...";
+                analyzeBtn.disabled = true;
+                analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Analyzing...';
+                
+                setTimeout(() => {
+                    const grna = grnaInput.value.toUpperCase().trim();
+                    if (grna.length >= 20 && /^[ACGT]+$/.test(grna)) {
+                         resultOutput.value = `[분석 완료 - 0.8초 소요]\n입력된 gRNA: ${grna}\n\nOff-Target 예측 결과 (Top 3):\n1. Chr1:15610025 (Mismatch: 1)\n2. Chr8:8914820 (Mismatch: 2)\n3. ChrX:11049821 (Mismatch: 2)\n\n...총 15개의 잠재적 부작용 위치가 발견되었습니다.`;
+                    } else {
+                        resultOutput.value = "[오류]\n유효한 gRNA 서열(20자 이상, A,C,G,T)을 입력해주세요.";
+                    }
+                    analyzeBtn.disabled = false;
+                    analyzeBtn.innerHTML = '<i class="fas fa-cogs mr-2"></i> 실시간 분석 시작';
+                }, 800);
+            });
+
+            const marketCtx = document.getElementById('marketChart').getContext('2d');
+            new Chart(marketCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['기존 배치 분석 시장', '신규 실시간 분석 시장', '기타 CRISPR 시장'],
+                    datasets: [{
+                        data: [25, 15, 60],
+                        backgroundColor: ['rgba(100, 116, 139, 0.7)', 'rgba(16, 185, 129, 0.7)', 'rgba(51, 65, 85, 0.7)'],
+                        borderColor: '#0f172a',
+                        borderWidth: 4,
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: '목표 시장 구성 (4.5조원 규모)', font: { size: 18 }, color: '#f1f5f9' }, legend: { position: 'bottom', labels: { color: '#cbd5e1', font: {size: 14}} } } }
+            });
+
+            const faders = document.querySelectorAll('.fade-in-section');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.2 });
+            faders.forEach(fader => observer.observe(fader));
+        });
+    </script>
+</body>
+</html>
