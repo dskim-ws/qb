@@ -1,0 +1,7 @@
+Metric,Before_Optimization,After_Optimization,Improvement_Factor
+Trial Duration (months),36,18,2.0
+Patient Recruitment Time (weeks),24,12,2.0
+Cost Reduction (%),0,65,65.0
+Accuracy Improvement (%),75,94,1.25
+Real-time Processing Speed (x faster),1,150,150.0
+Energy Savings (%),0,70,70.0

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATP1A3 디지털 트윈 임상시험 최적화 대시보드</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-color-scheme="dark">
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <h1>ATP1A3 변이 치료 디지털 트윈 임상시험 최적화</h1>
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <span class="stat-value" id="activeTrials">8</span>
+                        <span class="stat-label">진행 중인 임상시험</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="totalPatients">245</span>
+                        <span class="stat-label">총 환자 수</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="completedTrials">12</span>
+                        <span class="stat-label">완료된 임상시험</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="dashboard-nav">
+            <button class="nav-tab active" data-tab="overview">메인 대시보드</button>
+            <button class="nav-tab" data-tab="hardware">하드웨어 성능</button>
+            <button class="nav-tab" data-tab="mutations">ATP1A3 분석</button>
+            <button class="nav-tab" data-tab="trials">임상시험 모니터링</button>
+            <button class="nav-tab" data-tab="cost">비용 분석</button>
+            <button class="nav-tab" data-tab="simulation">실시간 시뮬레이션</button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Overview Tab -->
+            <div class="tab-content active" id="overview">
+                <div class="overview-grid">
+                    <div class="card kpi-card">
+                        <div class="card__body">
+                            <h3>핵심 성과 지표 (KPI)</h3>
+                            <div class="kpi-grid">
+                                <div class="kpi-item">
+                                    <div class="kpi-value success">50%</div>
+                                    <div class="kpi-label">임상시험 기간 단축</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value success">65%</div>
+                                    <div class="kpi-label">비용 절감</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value info">25%</div>
+                                    <div class="kpi-label">정확도 향상</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value warning">150%</div>
+                                    <div class="kpi-label">처리 속도 개선</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card chart-card">
+                        <div class="card__body">
+                            <h3>하드웨어 성능 개요</h3>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="overviewChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card progress-card">
+                        <div class="card__body">
+                            <h3>임상시험 진행 현황</h3>
+                            <div class="progress-list">
+                                <div class="progress-item">
+                                    <span class="progress-label">환자 모집</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 85%"></div>
+                                    </div>
+                                    <span class="progress-value">85%</span>
+                                </div>
+                                <div class="progress-item">
+                                    <span class="progress-label">디지털 트윈 구축</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 92%"></div>
+                                    </div>
+                                    <span class="progress-value">92%</span>
+                                </div>
+                                <div class="progress-item">
+                                    <span class="progress-label">치료 시뮬레이션</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 78%"></div>
+                                    </div>
+                                    <span class="progress-value">78%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card energy-card">
+                        <div class="card__body">
+                            <h3>에너지 효율성</h3>
+                            <div class="energy-stats">
+                                <div class="energy-item">
+                                    <div class="energy-icon">⚡</div>
+                                    <div class="energy-content">
+                                        <div class="energy-value">70%</div>
+                                        <div class="energy-label">에너지 절약</div>
+                                    </div>
+                                </div>
+                                <div class="energy-item">
+                                    <div class="energy-icon">🔋</div>
+                                    <div class="energy-content">
+                                        <div class="energy-value">15.2 kW</div>
+                                        <div class="energy-label">현재 소비량</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hardware Performance Tab -->
+            <div class="tab-content" id="hardware">
+                <div class="hardware-grid">
+                    <div class="card full-width">
+                        <div class="card__body">
+                            <h3>하드웨어별 성능 비교</h3>
+                            <div class="chart-container" style="position: relative; height: 400px;">
+                                <canvas id="hardwareChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>성능 순위</h3>
+                            <div class="ranking-list">
+                                <div class="ranking-item">
+                                    <span class="rank">1</span>
+                                    <span class="hardware-name">FPGA</span>
+                                    <span class="performance-score">95</span>
+                                </div>
+                                <div class="ranking-item">
+                                    <span class="rank">2</span>
+                                    <span class="hardware-name">Quantum</span>
+                                    <span class="performance-score">90</span>
+                                </div>
+                                <div class="ranking-item">
+                                    <span class="rank">3</span>
+                                    <span class="hardware-name">GPU</span>
+                                    <span class="performance-score">85</span>
+                                </div>
+                                <div class="ranking-item">
+                                    <span class="rank">4</span>
+                                    <span class="hardware-name">TPU</span>
+                                    <span class="performance-score">80</span>
+                                </div>
+                                <div class="ranking-item">
+                                    <span class="rank">5</span>
+                                    <span class="hardware-name">Neuromorphic</span>
+                                    <span class="performance-score">75</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>비용 효율성</h3>
+                            <div class="chart-container" style="position: relative; height: 250px;">
+                                <canvas id="costEfficiencyChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ATP1A3 Mutations Tab -->
+            <div class="tab-content" id="mutations">
+                <div class="mutations-grid">
+                    <div class="card full-width">
+                        <div class="card__body">
+                            <h3>ATP1A3 변이별 치료 효율성</h3>
+                            <div class="chart-container" style="position: relative; height: 400px;">
+                                <canvas id="mutationsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>변이별 상세 정보</h3>
+                            <div class="mutations-list">
+                                <div class="mutation-item">
+                                    <div class="mutation-header">
+                                        <span class="mutation-name">D801N</span>
+                                        <span class="severity-badge high">심각도 9</span>
+                                    </div>
+                                    <div class="mutation-stats">
+                                        <div class="stat">
+                                            <span class="stat-label">유병률</span>
+                                            <span class="stat-value">35%</span>
+                                        </div>
+                                        <div class="stat">
+                                            <span class="stat-label">PE 효율성</span>
+                                            <span class="stat-value">85%</span>
+                                        </div>
+                                        <div class="stat">
+                                            <span class="stat-label">생존 연장</span>
+                                            <span class="stat-value">2.5년</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mutation-item">
+                                    <div class="mutation-header">
+                                        <span class="mutation-name">E815K</span>
+                                        <span class="severity-badge medium">심각도 8</span>
+                                    </div>
+                                    <div class="mutation-stats">
+                                        <div class="stat">
+                                            <span class="stat-label">유병률</span>
+                                            <span class="stat-value">25%</span>
+                                        </div>
+                                        <div class="stat">
+                                            <span class="stat-label">PE 효율성</span>
+                                            <span class="stat-value">73%</span>
+                                        </div>
+                                        <div class="stat">
+                                            <span class="stat-label">생존 연장</span>
+                                            <span class="stat-value">2.1년</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mutation-item">
+                                    <div class="mutation-header">
+                                        <span class="mutation-name">G758S</span>
+                                        <span class="severity-badge medium">심각도 7</span>
+                                    </div>
+                                    <div class="mutation-stats">
+                                        <div class="stat">
+                                            <span class="stat-label">유병률</span>
+                                            <span class="stat-value">15%</span>
+                                        </div>
+                                        <div class="stat">
+                                            <span class="stat-label">PE 효율성</span>
+                                            <span class="stat-value">63%</span>
+                                        </div>
+                                        <div class="stat">
+                                            <span class="stat-label">생존 연장</span>
+                                            <span class="stat-value">1.8년</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clinical Trials Tab -->
+            <div class="tab-content" id="trials">
+                <div class="trials-grid">
+                    <div class="card full-width">
+                        <div class="card__body">
+                            <h3>임상시험 단계별 시간 비교</h3>
+                            <div class="chart-container" style="position: relative; height: 400px;">
+                                <canvas id="trialsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>현재 진행 상황</h3>
+                            <div class="trial-status">
+                                <div class="status-item">
+                                    <div class="status-indicator active"></div>
+                                    <div class="status-content">
+                                        <div class="status-title">Phase III 임상시험</div>
+                                        <div class="status-desc">D801N 변이 환자 95명</div>
+                                    </div>
+                                </div>
+                                <div class="status-item">
+                                    <div class="status-indicator active"></div>
+                                    <div class="status-content">
+                                        <div class="status-title">Phase II 임상시험</div>
+                                        <div class="status-desc">E815K 변이 환자 67명</div>
+                                    </div>
+                                </div>
+                                <div class="status-item">
+                                    <div class="status-indicator pending"></div>
+                                    <div class="status-content">
+                                        <div class="status-title">Phase I 임상시험</div>
+                                        <div class="status-desc">G758S 변이 환자 23명</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>최적화 효과</h3>
+                            <div class="optimization-stats">
+                                <div class="opt-stat">
+                                    <div class="opt-value">50%</div>
+                                    <div class="opt-label">시간 단축</div>
+                                </div>
+                                <div class="opt-stat">
+                                    <div class="opt-value">65%</div>
+                                    <div class="opt-label">비용 절감</div>
+                                </div>
+                                <div class="opt-stat">
+                                    <div class="opt-value">25%</div>
+                                    <div class="opt-label">정확도 개선</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cost Analysis Tab -->
+            <div class="tab-content" id="cost">
+                <div class="cost-grid">
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>비용 비교 분석</h3>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="costChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>ROI 분석</h3>
+                            <div class="roi-stats">
+                                <div class="roi-item">
+                                    <div class="roi-value">340%</div>
+                                    <div class="roi-label">투자 대비 수익률</div>
+                                </div>
+                                <div class="roi-item">
+                                    <div class="roi-value">18개월</div>
+                                    <div class="roi-label">투자 회수 기간</div>
+                                </div>
+                                <div class="roi-item">
+                                    <div class="roi-value">₩15.6억</div>
+                                    <div class="roi-label">연간 절약 예상액</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card full-width">
+                        <div class="card__body">
+                            <h3>연도별 누적 절약 효과</h3>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="savingsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Real-time Simulation Tab -->
+            <div class="tab-content" id="simulation">
+                <div class="simulation-grid">
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>실시간 처리 현황</h3>
+                            <div class="processing-stats">
+                                <div class="proc-stat">
+                                    <div class="proc-value" id="currentProcessing">15,420</div>
+                                    <div class="proc-label">현재 처리 중</div>
+                                </div>
+                                <div class="proc-stat">
+                                    <div class="proc-value" id="completedJobs">89,340</div>
+                                    <div class="proc-label">완료된 작업</div>
+                                </div>
+                                <div class="proc-stat">
+                                    <div class="proc-value" id="queuedJobs">2,180</div>
+                                    <div class="proc-label">대기 중인 작업</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>시스템 리소스</h3>
+                            <div class="resource-monitors">
+                                <div class="resource-item">
+                                    <div class="resource-label">CPU 사용률</div>
+                                    <div class="resource-bar">
+                                        <div class="resource-fill" id="cpuUsage" style="width: 78%"></div>
+                                    </div>
+                                    <div class="resource-value">78%</div>
+                                </div>
+                                <div class="resource-item">
+                                    <div class="resource-label">메모리 사용률</div>
+                                    <div class="resource-bar">
+                                        <div class="resource-fill" id="memoryUsage" style="width: 82%"></div>
+                                    </div>
+                                    <div class="resource-value">82%</div>
+                                </div>
+                                <div class="resource-item">
+                                    <div class="resource-label">네트워크 처리량</div>
+                                    <div class="resource-bar">
+                                        <div class="resource-fill" id="networkThroughput" style="width: 56%"></div>
+                                    </div>
+                                    <div class="resource-value">2.8 GB/s</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card full-width">
+                        <div class="card__body">
+                            <h3>실시간 시뮬레이션 결과</h3>
+                            <div class="chart-container" style="position: relative; height: 350px;">
+                                <canvas id="simulationChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>활성 노드</h3>
+                            <div class="nodes-grid">
+                                <div class="node-item active">
+                                    <div class="node-id">Node 001</div>
+                                    <div class="node-status">활성</div>
+                                </div>
+                                <div class="node-item active">
+                                    <div class="node-id">Node 002</div>
+                                    <div class="node-status">활성</div>
+                                </div>
+                                <div class="node-item active">
+                                    <div class="node-id">Node 003</div>
+                                    <div class="node-status">활성</div>
+                                </div>
+                                <div class="node-item inactive">
+                                    <div class="node-id">Node 004</div>
+                                    <div class="node-status">대기</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

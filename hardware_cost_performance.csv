@@ -1,0 +1,6 @@
+Hardware,Initial_Cost_USD,Operational_Cost_Per_Hour,Performance_Score,Energy_Efficiency_TOPS_per_W
+FPGA,50000,15,85,15
+GPU,30000,25,75,8
+TPU,40000,20,70,12
+Quantum,1000000,500,95,2
+Neuromorphic,80000,10,70,25
