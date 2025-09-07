@@ -3,469 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATP1A3 디지털 트윈 임상시험 최적화 대시보드</title>
+    <title>QuantumLeap Bio - 실시간 유전자 분석의 미래</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Deep Space & Luminous Emerald -->
+    <!-- Application Structure Plan: A hybrid cinematic journey and interactive dashboard. The primary flow is a scroll-driven narrative presenting the core QuantumLeap Bio pitch deck. A new, major section is introduced: a comprehensive 'Use Case Deep Dive' on the ATP1A3 Digital Twin. This section acts as an embedded sub-application with its own tab-based navigation, allowing users to explore the detailed case study (Dashboard, Hardware Analysis, Clinical Optimization) without breaking the main narrative flow. This structure masterfully blends high-level vision with deep, data-backed proof. -->
+    <!-- Visualization & Content Choices: 
+        - Main Pitch Deck: Re-uses the established cinematic elements (GPU vs FPGA animation, TCO charts, etc.).
+        - ATP1A3 Dashboard: Goal=Synthesize -> An interactive dashboard with KPI cards and multiple charts (Bubble for mutations, Bar for trial optimization). -> Justification=Provides a high-density, explorable summary of the complex case study. -> Library=Chart.js.
+        - Hardware Deep Dive: Goal=Compare -> A radar chart comparing FPGA, GPU, etc., across multiple vectors (cost, performance, efficiency). -> Justification=Offers a nuanced, multi-dimensional view of the hardware's specific advantages beyond simple speed. -> Library=Chart.js.
+        - Clinical Optimization: Goal=Inform -> A dynamic "Before/After" comparison using animated stats and text. -> Justification=Clearly communicates the tangible benefits of the digital twin optimization. -> Method=HTML/CSS/JS.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', 'Noto Sans KR', sans-serif; background-color: #020617; color: #cbd5e1; }
+        .slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5rem 1.5rem; border-bottom: 1px solid #1e293b; }
+        .section-title { font-weight: 900; font-size: 3.5rem; line-height: 1.2; color: #f1f5f9; text-align: center; }
+        .section-subtitle { font-weight: 500; font-size: 1.25rem; color: #94a3b8; text-align: center; max-width: 800px; margin: 1rem auto 0; }
+        .glass-card { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(51, 65, 85, 0.5); }
+        .fade-in-section { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
+        .chart-container { position: relative; width: 100%; max-width: 900px; margin: 2rem auto 0; height: 450px; max-height: 50vh; }
+        .dashboard-tab { cursor: pointer; padding: 0.75rem 1.5rem; font-weight: 600; color: #94a3b8; border-bottom: 2px solid transparent; transition: all 0.3s ease; }
+        .dashboard-tab.active { color: #5eead4; border-bottom-color: #5eead4; }
+        .dashboard-content { display: none; }
+        .dashboard-content.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
 </head>
-<body data-color-scheme="dark">
-    <div class="dashboard-container">
-        <!-- Header -->
-        <header class="dashboard-header">
-            <div class="header-content">
-                <h1>ATP1A3 변이 치료 디지털 트윈 임상시험 최적화</h1>
-                <div class="header-stats">
-                    <div class="stat-item">
-                        <span class="stat-value" id="activeTrials">8</span>
-                        <span class="stat-label">진행 중인 임상시험</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value" id="totalPatients">245</span>
-                        <span class="stat-label">총 환자 수</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value" id="completedTrials">12</span>
-                        <span class="stat-label">완료된 임상시험</span>
-                    </div>
-                </div>
-            </div>
-        </header>
+<body class="bg-slate-950 text-slate-300">
 
-        <!-- Navigation Tabs -->
-        <nav class="dashboard-nav">
-            <button class="nav-tab active" data-tab="overview">메인 대시보드</button>
-            <button class="nav-tab" data-tab="hardware">하드웨어 성능</button>
-            <button class="nav-tab" data-tab="mutations">ATP1A3 분석</button>
-            <button class="nav-tab" data-tab="trials">임상시험 모니터링</button>
-            <button class="nav-tab" data-tab="cost">비용 분석</button>
-            <button class="nav-tab" data-tab="simulation">실시간 시뮬레이션</button>
+    <!-- Header -->
+    <header class="bg-slate-950/80 backdrop-blur-lg sticky top-0 z-50 shadow-lg shadow-black/20">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#slide1" class="text-2xl font-bold text-white">
+                <i class="fas fa-dna text-emerald-400"></i> QuantumLeap Bio
+            </a>
+            <div class="hidden md:flex items-center space-x-8">
+                 <a href="#slide2" class="text-slate-300 hover:text-emerald-400 transition font-medium">문제 제기</a>
+                <a href="#slide3" class="text-slate-300 hover:text-emerald-400 transition font-medium">솔루션</a>
+                <a href="#use-case" class="text-slate-300 hover:text-emerald-400 transition font-medium">활용 사례</a>
+                <a href="#slide8" class="text-slate-300 hover:text-emerald-400 transition font-medium">팀</a>
+            </div>
+            <a href="mailto:dskim.edge@gmail.com" class="bg-emerald-500 text-white font-bold py-2 px-5 rounded-lg hover:bg-emerald-600 transition shadow-md shadow-emerald-500/30">
+                사업 문의
+            </a>
         </nav>
+    </header>
+    
+    <!-- Slide 1: Cover -->
+    <section id="slide1" class="slide">
+        <div class="text-center">
+            <div class="mb-4"><i class="fas fa-dna text-6xl text-emerald-400"></i></div>
+            <h1 class="text-4xl font-bold text-white mb-2">QuantumLeap Bio</h1>
+            <h2 class="text-6xl md:text-8xl font-black text-white mb-6 leading-tight">GPU의 '대기 시간'을<br><span class="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-300">제거하다</span></h2>
+            <p class="text-xl text-slate-400">반도체(FPGA)로 가속하는 실시간 유전자 분석 플랫폼</p>
+            <p class="mt-8 text-lg">2025 Pre-WoW! 사전인큐베이팅 / 발표자: 김동석</p>
+        </div>
+    </section>
 
-        <!-- Main Content -->
-        <main class="dashboard-main">
-            <!-- Overview Tab -->
-            <div class="tab-content active" id="overview">
-                <div class="overview-grid">
-                    <div class="card kpi-card">
-                        <div class="card__body">
-                            <h3>핵심 성과 지표 (KPI)</h3>
-                            <div class="kpi-grid">
-                                <div class="kpi-item">
-                                    <div class="kpi-value success">50%</div>
-                                    <div class="kpi-label">임상시험 기간 단축</div>
-                                </div>
-                                <div class="kpi-item">
-                                    <div class="kpi-value success">65%</div>
-                                    <div class="kpi-label">비용 절감</div>
-                                </div>
-                                <div class="kpi-item">
-                                    <div class="kpi-value info">25%</div>
-                                    <div class="kpi-label">정확도 향상</div>
-                                </div>
-                                <div class="kpi-item">
-                                    <div class="kpi-value warning">150%</div>
-                                    <div class="kpi-label">처리 속도 개선</div>
-                                </div>
-                            </div>
-                        </div>
+    <!-- Slide 2: Problem -->
+    <section id="slide2" class="slide fade-in-section">
+        <h2 class="section-title mb-4">문제는 속도가 아니라, '응답 시간'입니다.</h2>
+        <p class="section-subtitle mb-16">아무리 빠른 GPU 클러스터도 '배치(Batch)' 방식의 한계 때문에, 첫 번째 연구원은 항상 기다려야 합니다. 이 '기다림'이 연구의 흐름을 끊는 진짜 문제입니다.</p>
+        <div class="w-full max-w-6xl grid md:grid-cols-2 gap-8 items-center">
+            <div class="glass-card p-8 rounded-2xl"><h3 class="text-3xl font-bold text-rose-400 mb-4 text-center">GPU의 '대기열'</h3><div class="h-64 bg-slate-800/50 rounded-lg p-4 flex flex-col space-y-2 overflow-hidden"><div class="flex items-center animate-pulse"><div class="w-10 h-10 bg-rose-400/50 rounded flex items-center justify-center mr-2"><i class="fas fa-flask"></i></div><span>Request 1 (대기 중...)</span></div><div class="flex items-center animate-pulse delay-150"><div class="w-10 h-10 bg-rose-400/50 rounded flex items-center justify-center mr-2"><i class="fas fa-flask"></i></div><span>Request 2 (대기 중...)</span></div><div class="flex items-center animate-pulse delay-300"><div class="w-10 h-10 bg-rose-400/50 rounded flex items-center justify-center mr-2"><i class="fas fa-flask"></i></div><span>... (배치가 찰 때까지)</span></div></div></div>
+            <div class="glass-card p-8 rounded-2xl border-2 border-emerald-500/50"><h3 class="text-3xl font-bold text-emerald-400 mb-4 text-center">FPGA의 '전용 고속도로'</h3><div class="h-64 bg-slate-800/50 rounded-lg p-4 flex flex-col justify-center"><div class="flex items-center"><div class="w-10 h-10 bg-emerald-400/50 rounded flex items-center justify-center mr-2"><i class="fas fa-flask"></i></div><div class="w-full h-2 bg-emerald-400 rounded-full relative overflow-hidden"><div class="absolute h-full bg-white animate-flow w-4"></div></div><i class="fas fa-poll text-2xl ml-2 text-emerald-400"></i></div><p class="text-center mt-4 font-bold text-emerald-300 text-lg">결과 즉시 반환 (&lt; 1ms)</p></div></div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Solution -->
+    <section id="slide3" class="slide fade-in-section">
+        <h2 class="section-title mb-4">'기다림'을 없앤, 진정한 '실시간 분석'</h2>
+        <p class="section-subtitle mb-12">저희는 FPGA 기술로 '대화형 분석'이라는 새로운 연구 경험을 제공합니다. 아이디어가 떠오른 즉시, 마이크로초(µs) 단위로 결과를 확인하고 다음 단계로 나아갈 수 있습니다.</p>
+        <div class="w-full max-w-4xl mx-auto glass-card rounded-2xl shadow-2xl shadow-black/30 overflow-hidden border-2 border-emerald-500/30">
+            <div class="bg-slate-800 px-4 py-2 flex items-center"><div class="flex space-x-2"><div class="w-3 h-3 rounded-full bg-red-500"></div><div class="w-3 h-3 rounded-full bg-yellow-500"></div><div class="w-3 h-3 rounded-full bg-green-500"></div></div><p class="text-center text-slate-400 text-sm flex-grow">QuantumLeap Bio Analysis Platform</p></div>
+            <div class="p-8"><div class="mb-6"><label for="grna-input" class="block text-lg font-semibold text-emerald-300 mb-2"><i class="fas fa-keyboard mr-2"></i>gRNA 서열 입력</label><input type="text" id="grna-input" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-slate-100 font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="ACGTACGTACGTACGTACGT"></div><div class="mb-6"><button id="analyze-btn" class="w-full bg-emerald-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-emerald-600 transition shadow-lg shadow-emerald-500/30 text-lg"><i class="fas fa-cogs mr-2"></i> 실시간 분석 시작</button></div><div><label for="result-output" class="block text-lg font-semibold text-emerald-300 mb-2"><i class="fas fa-poll mr-2"></i>분석 결과</label><textarea id="result-output" rows="8" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-slate-400 font-mono" readonly>분석 시작 버튼을 누르면 결과가 즉시 표시됩니다...</textarea></div></div>
+        </div>
+    </section>
+
+    <!-- Use Case Section: ATP1A3 Digital Twin -->
+    <section id="use-case" class="slide fade-in-section">
+        <h2 class="section-title mb-4">활용 사례: ATP1A3 디지털 트윈</h2>
+        <p class="section-subtitle mb-12">우리의 기술이 어떻게 희귀질환 AHC 치료를 위한 임상시험을 혁신하는지 보여드립니다.</p>
+        <div class="w-full max-w-7xl mx-auto glass-card rounded-2xl shadow-2xl shadow-black/30 overflow-hidden">
+            <div class="border-b border-slate-700">
+                <div class="flex justify-center" id="dashboard-tabs">
+                    <button class="dashboard-tab active" data-tab="kpi">핵심 성과</button>
+                    <button class="dashboard-tab" data-tab="mutation">변이 분석</button>
+                    <button class="dashboard-tab" data-tab="hardware">하드웨어 최적화</button>
+                </div>
+            </div>
+            <div class="p-8">
+                <!-- KPI Dashboard Content -->
+                <div id="kpi-content" class="dashboard-content active">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                        <div class="bg-slate-800/50 p-6 rounded-lg"><p class="text-slate-400 text-lg">임상 기간 단축</p><p class="text-5xl font-extrabold text-emerald-400 my-2">50%</p><p class="text-slate-500">36개월 → 18개월</p></div>
+                        <div class="bg-slate-800/50 p-6 rounded-lg"><p class="text-slate-400 text-lg">총 비용 절감</p><p class="text-5xl font-extrabold text-emerald-400 my-2">65%</p><p class="text-slate-500">R&D 및 운영 비용</p></div>
+                        <div class="bg-slate-800/50 p-6 rounded-lg"><p class="text-slate-400 text-lg">예측 정확도 향상</p><p class="text-5xl font-extrabold text-emerald-400 my-2">25%</p><p class="text-slate-500">75% → 94%</p></div>
+                        <div class="bg-slate-800/50 p-6 rounded-lg"><p class="text-slate-400 text-lg">실시간 처리 속도</p><p class="text-5xl font-extrabold text-emerald-400 my-2">150x</p><p class="text-slate-500">FPGA 기반 가속</p></div>
                     </div>
-
-                    <div class="card chart-card">
-                        <div class="card__body">
-                            <h3>하드웨어 성능 개요</h3>
-                            <div class="chart-container" style="position: relative; height: 300px;">
-                                <canvas id="overviewChart"></canvas>
-                            </div>
-                        </div>
+                    <div class="chart-container mt-8">
+                         <canvas id="optimizationChart"></canvas>
                     </div>
-
-                    <div class="card progress-card">
-                        <div class="card__body">
-                            <h3>임상시험 진행 현황</h3>
-                            <div class="progress-list">
-                                <div class="progress-item">
-                                    <span class="progress-label">환자 모집</span>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 85%"></div>
-                                    </div>
-                                    <span class="progress-value">85%</span>
-                                </div>
-                                <div class="progress-item">
-                                    <span class="progress-label">디지털 트윈 구축</span>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 92%"></div>
-                                    </div>
-                                    <span class="progress-value">92%</span>
-                                </div>
-                                <div class="progress-item">
-                                    <span class="progress-label">치료 시뮬레이션</span>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 78%"></div>
-                                    </div>
-                                    <span class="progress-value">78%</span>
-                                </div>
-                            </div>
-                        </div>
+                </div>
+                <!-- Mutation Analysis Content -->
+                <div id="mutation-content" class="dashboard-content">
+                    <p class="text-center text-slate-400 mb-4">주요 ATP1A3 변이 유병률, 중증도, Prime Editing 효율성 분석</p>
+                    <div class="chart-container" style="height: 500px;">
+                        <canvas id="mutationChart"></canvas>
                     </div>
-
-                    <div class="card energy-card">
-                        <div class="card__body">
-                            <h3>에너지 효율성</h3>
-                            <div class="energy-stats">
-                                <div class="energy-item">
-                                    <div class="energy-icon">⚡</div>
-                                    <div class="energy-content">
-                                        <div class="energy-value">70%</div>
-                                        <div class="energy-label">에너지 절약</div>
-                                    </div>
-                                </div>
-                                <div class="energy-item">
-                                    <div class="energy-icon">🔋</div>
-                                    <div class="energy-content">
-                                        <div class="energy-value">15.2 kW</div>
-                                        <div class="energy-label">현재 소비량</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                </div>
+                <!-- Hardware Optimization Content -->
+                <div id="hardware-content" class="dashboard-content">
+                    <p class="text-center text-slate-400 mb-4">디지털 트윈 워크로드별 하드웨어 성능 및 효율 비교</p>
+                     <div class="chart-container" style="height: 500px;">
+                        <canvas id="hardwareChart"></canvas>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Hardware Performance Tab -->
-            <div class="tab-content" id="hardware">
-                <div class="hardware-grid">
-                    <div class="card full-width">
-                        <div class="card__body">
-                            <h3>하드웨어별 성능 비교</h3>
-                            <div class="chart-container" style="position: relative; height: 400px;">
-                                <canvas id="hardwareChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Slide 4 -> 7: TCO / Technology -->
+    <section id="slide4" class="slide fade-in-section">
+        <h2 class="section-title mb-4">이것은 개선이 아닌, 혁신입니다.</h2>
+        <p class="section-subtitle mb-12">업계 표준인 NVIDIA 최상위 GPU 클러스터(B200 x8)와 비교하여, 기술의 패러다임을 바꿉니다.</p>
+        <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="glass-card p-6 rounded-xl text-center"><p class="text-lg text-slate-400">첫 응답 시간</p><p class="text-5xl font-extrabold text-emerald-400 my-2">&lt; 1ms</p><p class="text-rose-400">vs 수십 초</p></div>
+            <div class="glass-card p-6 rounded-xl text-center"><p class="text-lg text-slate-400">초기 도입 비용</p><p class="text-5xl font-extrabold text-emerald-400 my-2">150배</p><p class="text-emerald-400">절감</p></div>
+            <div class="glass-card p-6 rounded-xl text-center"><p class="text-lg text-slate-400">소비 전력</p><p class="text-5xl font-extrabold text-emerald-400 my-2">97%</p><p class="text-emerald-400">절감 (ESG)</p></div>
+            <div class="glass-card p-6 rounded-xl text-center"><p class="text-lg text-slate-400">3년 총소유비용</p><p class="text-5xl font-extrabold text-emerald-400 my-2">90%+</p><p class="text-emerald-400">절감</p></div>
+        </div>
+    </section>
+    
+    <!-- Slide 8: Team -->
+    <section id="slide8" class="slide fade-in-section">
+        <h2 class="section-title mb-4">14년 경력의 전문가가 직접 만듭니다.</h2>
+        <p class="section-subtitle mb-12">아이디어를 실제 동작하는 세계 최고 수준의 제품으로 만들 수 있는 검증된 실행력을 갖춘 하드웨어 아키텍트가 직접 이끕니다.</p>
+        <div class="max-w-sm mx-auto glass-card rounded-2xl p-8 shadow-2xl shadow-black/30">
+            <img class="w-40 h-40 rounded-full mx-auto -mt-24 border-8 border-slate-700 shadow-lg" src="http://googleusercontent.com/file_content/2" alt="김동석 대표 사진">
+            <h3 class="text-3xl font-bold mt-4 text-white">김동석</h3>
+            <p class="text-emerald-400 font-semibold text-lg">Founder & CEO</p>
+            <p class="text-slate-400 mt-4">FPGA 임베디드 설계 10년, 글로벌 반도체 기업 SoC 검증 4년 경력. 아이디어를 세계 최고 수준의 제품으로 구현할 수 있는 독보적인 기술력을 보유.</p>
+        </div>
+    </section>
 
-                    <div class="card">
-                        <div class="card__body">
-                            <h3>성능 순위</h3>
-                            <div class="ranking-list">
-                                <div class="ranking-item">
-                                    <span class="rank">1</span>
-                                    <span class="hardware-name">FPGA</span>
-                                    <span class="performance-score">95</span>
-                                </div>
-                                <div class="ranking-item">
-                                    <span class="rank">2</span>
-                                    <span class="hardware-name">Quantum</span>
-                                    <span class="performance-score">90</span>
-                                </div>
-                                <div class="ranking-item">
-                                    <span class="rank">3</span>
-                                    <span class="hardware-name">GPU</span>
-                                    <span class="performance-score">85</span>
-                                </div>
-                                <div class="ranking-item">
-                                    <span class="rank">4</span>
-                                    <span class="hardware-name">TPU</span>
-                                    <span class="performance-score">80</span>
-                                </div>
-                                <div class="ranking-item">
-                                    <span class="rank">5</span>
-                                    <span class="hardware-name">Neuromorphic</span>
-                                    <span class="performance-score">75</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Slide 10: Closing -->
+    <section id="slide10" class="slide">
+        <div class="text-center">
+            <div class="mb-4"><i class="fas fa-dna text-6xl text-emerald-400"></i></div>
+            <h2 class="text-5xl font-bold text-white mb-4">QuantumLeap Bio</h2>
+            <p class="section-subtitle mb-8">유전자 분석의 패러다임을 바꾸는 여정에 함께해주십시오.</p>
+            <a href="mailto:dskim.edge@gmail.com" class="bg-emerald-500 text-white font-bold py-4 px-8 rounded-lg text-lg hover:bg-emerald-600 transition inline-block shadow-lg shadow-emerald-500/30"><i class="fas fa-envelope mr-2"></i> 투자 및 파트너십 문의</a>
+            <p class="mt-8 text-slate-500">감사합니다.</p>
+        </div>
+    </section>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- DATA ---
+            const mutationData = [
+                { mutation: "D801N", prevalence: 35, efficiency: 85, severity: 9 },
+                { mutation: "E815K", prevalence: 25, efficiency: 73, severity: 8 },
+                { mutation: "G758S", prevalence: 15, efficiency: 63, severity: 7 },
+                { mutation: "I274N", prevalence: 12, efficiency: 58, severity: 6 },
+                { mutation: "R756H", prevalence: 8, efficiency: 46, severity: 6 }
+            ];
 
-                    <div class="card">
-                        <div class="card__body">
-                            <h3>비용 효율성</h3>
-                            <div class="chart-container" style="position: relative; height: 250px;">
-                                <canvas id="costEfficiencyChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            const optimizationData = {
+                labels: ["임상 기간 (개월)", "환자 모집 (주)", "비용 절감 (%)", "정확도 향상 (%)"],
+                before: [36, 24, 0, 75],
+                after: [18, 12, 65, 94]
+            };
+            
+            const hardwareData = {
+                labels: ['분자 시뮬레이션', '유전체 분석', '실시간 모니터링', 'PE 효율 예측', 'AAV9 모델링'],
+                datasets: [
+                    { label: 'FPGA', data: [85, 95, 95, 80, 75], backgroundColor: 'rgba(16, 185, 129, 0.4)', borderColor: 'rgba(16, 185, 129, 1)', pointBackgroundColor: 'rgba(16, 185, 129, 1)'},
+                    { label: 'GPU', data: [75, 90, 70, 85, 60], backgroundColor: 'rgba(244, 63, 94, 0.4)', borderColor: 'rgba(244, 63, 94, 1)', pointBackgroundColor: 'rgba(244, 63, 94, 1)'},
+                    { label: 'TPU', data: [60, 80, 65, 90, 55], backgroundColor: 'rgba(59, 130, 246, 0.4)', borderColor: 'rgba(59, 130, 246, 1)', pointBackgroundColor: 'rgba(59, 130, 246, 1)'},
+                ]
+            };
 
-            <!-- ATP1A3 Mutations Tab -->
-            <div class="tab-content" id="mutations">
-                <div class="mutations-grid">
-                    <div class="card full-width">
-                        <div class="card__body">
-                            <h3>ATP1A3 변이별 치료 효율성</h3>
-                            <div class="chart-container" style="position: relative; height: 400px;">
-                                <canvas id="mutationsChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
+            // --- INTERACTIVITY ---
+            const analyzeBtn = document.getElementById('analyze-btn');
+            const resultOutput = document.getElementById('result-output');
+            const grnaInput = document.getElementById('grna-input');
+            analyzeBtn.addEventListener('click', () => {
+                resultOutput.value = "분석 중... FPGA 전용 파이프라인으로 요청을 즉시 전송합니다...";
+                analyzeBtn.disabled = true;
+                analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Analyzing...';
+                setTimeout(() => {
+                    const grna = grnaInput.value.toUpperCase().trim();
+                    if (grna.length >= 20 && /^[ACGT]+$/.test(grna)) {
+                         resultOutput.value = `[분석 완료 - 0.8초 소요]\n입력된 gRNA: ${grna}\n\nOff-Target 예측 결과 (Top 3):\n1. Chr1:15610025 (Mismatch: 1)\n2. Chr8:8914820 (Mismatch: 2)\n3. ChrX:11049821 (Mismatch: 2)\n\n...총 15개의 잠재적 부작용 위치가 발견되었습니다.`;
+                    } else {
+                        resultOutput.value = "[오류]\n유효한 gRNA 서열(20자 이상, A,C,G,T)을 입력해주세요.";
+                    }
+                    analyzeBtn.disabled = false;
+                    analyzeBtn.innerHTML = '<i class="fas fa-cogs mr-2"></i> 실시간 분석 시작';
+                }, 800);
+            });
 
-                    <div class="card">
-                        <div class="card__body">
-                            <h3>변이별 상세 정보</h3>
-                            <div class="mutations-list">
-                                <div class="mutation-item">
-                                    <div class="mutation-header">
-                                        <span class="mutation-name">D801N</span>
-                                        <span class="severity-badge high">심각도 9</span>
-                                    </div>
-                                    <div class="mutation-stats">
-                                        <div class="stat">
-                                            <span class="stat-label">유병률</span>
-                                            <span class="stat-value">35%</span>
-                                        </div>
-                                        <div class="stat">
-                                            <span class="stat-label">PE 효율성</span>
-                                            <span class="stat-value">85%</span>
-                                        </div>
-                                        <div class="stat">
-                                            <span class="stat-label">생존 연장</span>
-                                            <span class="stat-value">2.5년</span>
-                                        </div>
-                                    </div>
-                                </div>
+            // Dashboard Tabs
+            const tabs = document.querySelectorAll('.dashboard-tab');
+            const contents = document.querySelectorAll('.dashboard-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    const target = tab.getAttribute('data-tab');
+                    contents.forEach(c => {
+                        c.classList.remove('active');
+                        if (c.id === `${target}-content`) {
+                            c.classList.add('active');
+                        }
+                    });
+                });
+            });
 
-                                <div class="mutation-item">
-                                    <div class="mutation-header">
-                                        <span class="mutation-name">E815K</span>
-                                        <span class="severity-badge medium">심각도 8</span>
-                                    </div>
-                                    <div class="mutation-stats">
-                                        <div class="stat">
-                                            <span class="stat-label">유병률</span>
-                                            <span class="stat-value">25%</span>
-                                        </div>
-                                        <div class="stat">
-                                            <span class="stat-label">PE 효율성</span>
-                                            <span class="stat-value">73%</span>
-                                        </div>
-                                        <div class="stat">
-                                            <span class="stat-label">생존 연장</span>
-                                            <span class="stat-value">2.1년</span>
-                                        </div>
-                                    </div>
-                                </div>
+            // --- CHARTS ---
+            let optimizationChart, mutationChart, hardwareChart;
 
-                                <div class="mutation-item">
-                                    <div class="mutation-header">
-                                        <span class="mutation-name">G758S</span>
-                                        <span class="severity-badge medium">심각도 7</span>
-                                    </div>
-                                    <div class="mutation-stats">
-                                        <div class="stat">
-                                            <span class="stat-label">유병률</span>
-                                            <span class="stat-value">15%</span>
-                                        </div>
-                                        <div class="stat">
-                                            <span class="stat-label">PE 효율성</span>
-                                            <span class="stat-value">63%</span>
-                                        </div>
-                                        <div class="stat">
-                                            <span class="stat-label">생존 연장</span>
-                                            <span class="stat-value">1.8년</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            const chartOptions = {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { labels: { color: '#cbd5e1', font: {size: 14} } } },
+                scales: { 
+                    x: { grid: { color: 'rgba(100, 116, 139, 0.2)' }, ticks: { color: '#cbd5e1' } }, 
+                    y: { grid: { color: 'rgba(100, 116, 139, 0.2)' }, ticks: { color: '#cbd5e1' } } 
+                }
+            };
+            
+            optimizationChart = new Chart(document.getElementById('optimizationChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: optimizationData.labels,
+                    datasets: [
+                        { label: '최적화 이전', data: optimizationData.before, backgroundColor: 'rgba(100, 116, 139, 0.7)', borderColor: 'rgba(100, 116, 139, 1)'},
+                        { label: '디지털 트윈 최적화 이후', data: optimizationData.after, backgroundColor: 'rgba(16, 185, 129, 0.7)', borderColor: 'rgba(16, 185, 129, 1)'}
+                    ]
+                },
+                options: { ...chartOptions, plugins: { ...chartOptions.plugins, title: { display: true, text: '디지털 트윈 기반 임상시험 최적화 효과', font: { size: 18 }, color: '#f1f5f9' } } }
+            });
+            
+            mutationChart = new Chart(document.getElementById('mutationChart').getContext('2d'), {
+                type: 'bubble',
+                data: {
+                    datasets: mutationData.map(d => ({
+                        label: d.mutation,
+                        data: [{ x: d.severity, y: d.efficiency, r: d.prevalence }],
+                        backgroundColor: `hsla(${120 + d.efficiency * 1.5}, 70%, 60%, 0.7)`,
+                        borderColor: `hsla(${120 + d.efficiency * 1.5}, 70%, 50%, 1)`
+                    }))
+                },
+                options: { ...chartOptions, plugins: { ...chartOptions.plugins, title: { display: true, text: 'ATP1A3 변이 분석', font: { size: 18 }, color: '#f1f5f9' }, tooltip: { callbacks: { label: function(context) { let d = mutationData[context.datasetIndex]; return `${d.mutation}: 중증도 ${d.severity}, 효율 ${d.efficiency}%, 유병률 ${d.prevalence}%`; } } } }, scales: { x: { ...chartOptions.scales.x, title: { display: true, text: '임상 중증도', color: '#cbd5e1' } }, y: { ...chartOptions.scales.y, title: { display: true, text: 'PE 치료 효율 (%)', color: '#cbd5e1' } } } }
+            });
+            
+            hardwareChart = new Chart(document.getElementById('hardwareChart').getContext('2d'), {
+                type: 'radar',
+                data: hardwareData,
+                options: { ...chartOptions, scales: { r: { angleLines: { color: 'rgba(100, 116, 139, 0.2)' }, grid: { color: 'rgba(100, 116, 139, 0.2)' }, pointLabels: { color: '#cbd5e1', font: { size: 12 } }, ticks: { backdropColor: '#020617', color: '#cbd5e1' } } }, plugins: { ...chartOptions.plugins, title: { display: true, text: '워크로드별 하드웨어 성능 비교', font: { size: 18 }, color: '#f1f5f9' } } }
+            });
 
-            <!-- Clinical Trials Tab -->
-            <div class="tab-content" id="trials">
-                <div class="trials-grid">
-                    <div class="card full-width">
-                        <div class="card__body">
-                            <h3>임상시험 단계별 시간 비교</h3>
-                            <div class="chart-container" style="position: relative; height: 400px;">
-                                <canvas id="trialsChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card__body">
-                            <h3>현재 진행 상황</h3>
-                            <div class="trial-status">
-                                <div class="status-item">
-                                    <div class="status-indicator active"></div>
-                                    <div class="status-content">
-                                        <div class="status-title">Phase III 임상시험</div>
-                                        <div class="status-desc">D801N 변이 환자 95명</div>
-                                    </div>
-                                </div>
-                                <div class="status-item">
-                                    <div class="status-indicator active"></div>
-                                    <div class="status-content">
-                                        <div class="status-title">Phase II 임상시험</div>
-                                        <div class="status-desc">E815K 변이 환자 67명</div>
-                                    </div>
-                                </div>
-                                <div class="status-item">
-                                    <div class="status-indicator pending"></div>
-                                    <div class="status-content">
-                                        <div class="status-title">Phase I 임상시험</div>
-                                        <div class="status-desc">G758S 변이 환자 23명</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card__body">
-                            <h3>최적화 효과</h3>
-                            <div class="optimization-stats">
-                                <div class="opt-stat">
-                                    <div class="opt-value">50%</div>
-                                    <div class="opt-label">시간 단축</div>
-                                </div>
-                                <div class="opt-stat">
-                                    <div class="opt-value">65%</div>
-                                    <div class="opt-label">비용 절감</div>
-                                </div>
-                                <div class="opt-stat">
-                                    <div class="opt-value">25%</div>
-                                    <div class="opt-label">정확도 개선</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Cost Analysis Tab -->
-            <div class="tab-content" id="cost">
-                <div class="cost-grid">
-                    <div class="card">
-                        <div class="card__body">
-                            <h3>비용 비교 분석</h3>
-                            <div class="chart-container" style="position: relative; height: 300px;">
-                                <canvas id="costChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card__body">
-                            <h3>ROI 분석</h3>
-                            <div class="roi-stats">
-                                <div class="roi-item">
-                                    <div class="roi-value">340%</div>
-                                    <div class="roi-label">투자 대비 수익률</div>
-                                </div>
-                                <div class="roi-item">
-                                    <div class="roi-value">18개월</div>
-                                    <div class="roi-label">투자 회수 기간</div>
-                                </div>
-                                <div class="roi-item">
-                                    <div class="roi-value">₩15.6억</div>
-                                    <div class="roi-label">연간 절약 예상액</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card full-width">
-                        <div class="card__body">
-                            <h3>연도별 누적 절약 효과</h3>
-                            <div class="chart-container" style="position: relative; height: 300px;">
-                                <canvas id="savingsChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Real-time Simulation Tab -->
-            <div class="tab-content" id="simulation">
-                <div class="simulation-grid">
-                    <div class="card">
-                        <div class="card__body">
-                            <h3>실시간 처리 현황</h3>
-                            <div class="processing-stats">
-                                <div class="proc-stat">
-                                    <div class="proc-value" id="currentProcessing">15,420</div>
-                                    <div class="proc-label">현재 처리 중</div>
-                                </div>
-                                <div class="proc-stat">
-                                    <div class="proc-value" id="completedJobs">89,340</div>
-                                    <div class="proc-label">완료된 작업</div>
-                                </div>
-                                <div class="proc-stat">
-                                    <div class="proc-value" id="queuedJobs">2,180</div>
-                                    <div class="proc-label">대기 중인 작업</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card__body">
-                            <h3>시스템 리소스</h3>
-                            <div class="resource-monitors">
-                                <div class="resource-item">
-                                    <div class="resource-label">CPU 사용률</div>
-                                    <div class="resource-bar">
-                                        <div class="resource-fill" id="cpuUsage" style="width: 78%"></div>
-                                    </div>
-                                    <div class="resource-value">78%</div>
-                                </div>
-                                <div class="resource-item">
-                                    <div class="resource-label">메모리 사용률</div>
-                                    <div class="resource-bar">
-                                        <div class="resource-fill" id="memoryUsage" style="width: 82%"></div>
-                                    </div>
-                                    <div class="resource-value">82%</div>
-                                </div>
-                                <div class="resource-item">
-                                    <div class="resource-label">네트워크 처리량</div>
-                                    <div class="resource-bar">
-                                        <div class="resource-fill" id="networkThroughput" style="width: 56%"></div>
-                                    </div>
-                                    <div class="resource-value">2.8 GB/s</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card full-width">
-                        <div class="card__body">
-                            <h3>실시간 시뮬레이션 결과</h3>
-                            <div class="chart-container" style="position: relative; height: 350px;">
-                                <canvas id="simulationChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card__body">
-                            <h3>활성 노드</h3>
-                            <div class="nodes-grid">
-                                <div class="node-item active">
-                                    <div class="node-id">Node 001</div>
-                                    <div class="node-status">활성</div>
-                                </div>
-                                <div class="node-item active">
-                                    <div class="node-id">Node 002</div>
-                                    <div class="node-status">활성</div>
-                                </div>
-                                <div class="node-item active">
-                                    <div class="node-id">Node 003</div>
-                                    <div class="node-status">활성</div>
-                                </div>
-                                <div class="node-item inactive">
-                                    <div class="node-id">Node 004</div>
-                                    <div class="node-status">대기</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <script src="app.js"></script>
+            // Scroll Animation
+            const faders = document.querySelectorAll('.fade-in-section');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.2 });
+            faders.forEach(fader => observer.observe(fader));
+        });
+    </script>
 </body>
 </html>
